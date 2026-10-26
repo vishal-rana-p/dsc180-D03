@@ -1,0 +1,29 @@
+{
+  "machine": "laptop (WSL2)",
+  "devices": "[CudaDevice(id=0)]",
+  "jax_version": "0.10.2",
+  "jcm_commit": "7c55e2950433d33fc5ec581642d7ac4b7b52bd38",
+  "boundary_conditions": "jcm.data.bc.t30.clim (terrain.nc, forcing.nc, align_mode=wrap_year)",
+  "co2_vmr_ppmv": 420.0,
+  "n_years": 31,
+  "spinup_years": 1,
+  "save_interval_days": 5,
+  "total_time_per_chunk_days": 365,
+  "output_averages": true,
+  "saved_variables": [
+    "shortwave_rad.fsol",
+    "shortwave_rad.ftop",
+    "longwave_rad.ftop",
+    "surface_flux.t0",
+    "surface_exchange.precipitation",
+    "condensation.precls",
+    "convection.precnv",
+    "shortwave_rad.cloudc",
+    "temperature",
+    "u_wind",
+    "v_wind",
+    "normalized_surface_pressure",
+    "mod_radcon.ablco2"
+  ],
+  "saved_dtype": "float32, zlib complevel 4"
+}

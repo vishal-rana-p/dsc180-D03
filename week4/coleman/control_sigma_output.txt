@@ -1,0 +1,21 @@
+files: 31 | seconds per simulated year: 43.6
+
+Global-mean TOA budget (after spin-up):
+  incoming SW :  342.01 W/m2
+  reflected SW:  105.19 W/m2  (albedo 0.308)
+  OLR         :  230.61 W/m2
+  net (down)  :    6.20 W/m2
+
+control years used (m): 30
+sigma (interannual SD of net): 0.153 W/m2
+lag-1 autocorrelation: 0.14
+SE of control mean: 0.028 W/m2
+
+Planned: 40-yr CO2 runs vs 30-yr control -> SE(ERF) ≈ 0.037 W/m2 (meets the 0.1 target)
+
+control m | CO2 years n needed | extra GPU time (4 runs + control extension)
+       20 |                  5 | 0.3 h
+       30 |                  5 | 0.3 h
+       40 |                  5 | 0.4 h
+       50 |                  5 | 0.5 h
+       80 |                  5 | 0.9 h
