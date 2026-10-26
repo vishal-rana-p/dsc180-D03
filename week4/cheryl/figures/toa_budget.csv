@@ -1,0 +1,6 @@
+,JCM,ERA5,NorESM2-LM
+incoming SW,342.05,340.37,340.23
+reflected SW,100.46,97.71,102.06
+OLR,236.61,241.98,237.53
+net (in − refl − OLR),4.98,0.68,0.65
+albedo,0.29,0.29,0.3
