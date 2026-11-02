@@ -1,0 +1,135 @@
+[2026-10-30 08:33:11,637][jem.runners][INFO] - Composed config:
+atmosphere:
+  constants: {}
+  physics:
+    checkpoint_terms: true
+    terms:
+      speedy_flags:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyFlags
+      speedy_forcing:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyForcing
+      speedy_humidity:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyHumidity
+      speedy_convection:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyConvection
+      speedy_large_scale_condensation:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyLargeScaleCondensation
+      speedy_clouds:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyClouds
+      speedy_shortwave_radiation:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyShortwaveRadiation
+      speedy_downward_longwave:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyDownwardLongwaveRadiation
+      speedy_surface_flux:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedySurfaceFlux
+      speedy_upward_longwave:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyUpwardLongwaveRadiation
+      speedy_vertical_diffusion:
+        _target_: jcm.physics.speedy.speedy_terms.SpeedyVerticalDiffusion
+  grid:
+    vertical: sigma
+    layers: 8
+    spectral_truncation: 31
+    spmd_mesh: null
+    host_device_count: null
+  dycore:
+    name: dinosaur
+    compute_omega: null
+    advection: null
+  run:
+    time_step: 12
+    save_interval: 10
+    total_time: 10
+    end_time: null
+    start_time: null
+    output_averages: false
+    output: model_state.nc
+    log_level: WARNING
+    sponge:
+      levels: 0
+      timescale_h: 3.0
+      enspodi: 2.0
+      damp_temperature: true
+      target_T_K: null
+    chunk_days: 0
+    output_prefix: chunked_run
+    monthly_means: false
+    save_chunks: true
+    snapshot_interval: null
+    snapshot_variables: []
+    checkpoint_path: null
+    archive_ckpt_every: 0
+    bail_on_unhealthy: true
+    mode: full
+    state_file: null
+    tracer_vars: null
+    column:
+      lat_deg: 0.0
+      lon_deg: 0.0
+  init:
+    kind: isothermal
+  terrain:
+    kind: aquaplanet
+  forcing:
+    kind: default
+    ozone_file: auto
+    ozone_align: auto
+    emissions_align: auto
+    oxidants_align: auto
+    ozone_persist: strict
+    emissions_persist: strict
+    oxidants_persist: strict
+    emissions_file: auto
+    dms_file: auto
+    dust_file: auto
+    dust_preferential_file: auto
+    dust_soil_types_file: auto
+    dust_regions_file: auto
+    dust_roughness_file: auto
+    oxidants_file: auto
+    prescribed_surface_flux: null
+  nudging:
+    enabled: false
+  diffusion:
+    kind: auto
+    scale: 1.0
+    tracer_positivity: auto
+ocean:
+  _target_: jem.components.SlabOceanModel
+  params:
+    _target_: jem.components.slab.SlabOceanParameters
+land: null
+seaice:
+  _target_: jem.components.SlabSeaiceModel
+  params:
+    _target_: jem.components.slab.SlabSeaiceParameters
+coupling:
+  timestep: 1 day
+  workflow: null
+  exchangers: null
+  exchanger: null
+  exchanged_forcing: null
+regrid: null
+coupled_run:
+  total_time: 2 days
+  end_time: null
+  chunk: 2 days
+  output_dir: null
+  output_averages: false
+  subsample: 1
+  bail_on_unhealthy: true
+  checkpoint_path: checkpoint
+  initial_condition: null
+  checkpoint_interval: null
+  log_level: INFO
+
+[2026-10-30 08:33:11,638][jem.runners][INFO] - Writing output to /home/jtc006/dsc180-D03/week5/jennifer/jem_runs/aquaplanet_test/outputs/2026-10-30/08-33-11
+[2026-10-30 08:33:11,809][jax._src.xla_bridge][INFO] - Unable to initialize backend 'tpu': INTERNAL: Failed to open libtpu.so: libtpu.so: cannot open shared object file: No such file or directory
+[2026-10-30 08:33:11,810][jax._src.xla_bridge][WARNING] - An NVIDIA GPU may be present on this machine, but a CUDA-enabled jaxlib is not installed. Falling back to cpu.
+[2026-10-30 08:33:14,564][jcm.forcing_assembly][WARNING] - forcing.ozone_file=auto on a sigma-vertical grid — the packaged and mirror ozone products are interpolated onto hybrid-level pressures and would be mapped level-for-level onto unrelated sigma levels. Falling back to the ANALYTIC ozone profile; supply an on-grid forcing.ozone_file (built for this vertical grid) for production radiation.
+[2026-10-30 08:33:16,324][jem.runners][INFO] - The coupling supplies the atmosphere's sea_surface_temperature, sice_am (derived from the exchanger table); the rest of its forcing stays time-varying.
+[2026-10-30 08:33:24,149][jem.runners][INFO] - Built Coupler(name='coupled', components=['atm', 'ocn', 'seaice'], exchangers=['exchange'], workflow=['exchange', 'atm', 'ocn', 'seaice'], coupling_timestep=1 days, start_date='2000-01-01T00:00:00')
+[2026-10-30 08:33:24,352][jem.driver][INFO] - There is no checkpoint at /home/jtc006/dsc180-D03/week5/jennifer/jem_runs/aquaplanet_test/outputs/2026-10-30/08-33-11/checkpoint; a run asked to resume from it cannot. One will be written there after every chunk. Nothing is restored from it: every component starts from its initial state rather than from a restart, and the run begins again at the start date.
+[2026-10-30 08:33:24,352][jem.driver][INFO] - Starting from coupler.initialize() at coupled step 0 (/home/jtc006/dsc180-D03/week5/jennifer/jem_runs/aquaplanet_test/outputs/2026-10-30/08-33-11/checkpoint holds no complete checkpoint).
+[2026-10-30 08:33:49,032][jem.driver][INFO] - Chunk 0: 2 coupled steps run, at step 2, 2 simulated days (model time 2000-01-03T00:00:00); 3 file(s) written.
+[2026-10-30 08:33:49,994][__main__][INFO] - Finished: 2 coupled steps, completed=True, 3 file(s) written.

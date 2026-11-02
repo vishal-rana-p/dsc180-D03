@@ -1,0 +1,181 @@
+hydra:
+  run:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: multirun/${hydra.job.num}
+  launcher:
+    _target_: hydra._internal.core_plugins.basic_launcher.BasicLauncher
+  sweeper:
+    _target_: hydra._internal.core_plugins.basic_sweeper.BasicSweeper
+    max_batch_size: null
+    params: null
+  help:
+    app_name: JEM
+    template: "\n${hydra.help.app_name}: JAX Earth-System Model coupler\n----\nRuns\
+      \ coupled simulations: a JAX-GCM atmosphere plus ocean, land and sea-ice\ncomponents,\
+      \ exchanging on a fixed coupling step.\n\nUsage:\n------\n  python -m jem.main\
+      \ [OVERRIDES...]\n\nUse ``python -m jem.main --cfg job`` to print the fully-composed\
+      \ config for\nthe current overrides; ``--help`` lists every config-group choice\
+      \ below.\n\nNamed coupled configurations (the quickest way in):\n---------------------------------------------------\n\
+      \  python -m jem.main +configuration=aquaplanet-slab\n  python -m jem.main +configuration=earth-slab\
+      \ coupled_run=short_run\n\nJAX-ESM's own config groups (under jem/config/):\n\
+      -----------------------------------------------\n  ocean, land, seaice, coupling,\
+      \ regrid, coupled_run, configuration\n\n  The coupled run's settings are the\
+      \ ``coupled_run`` group, at\n  ``cfg.coupled_run``: ``coupled_run=long_run``\
+      \ picks an option and\n  ``coupled_run.total_time=\"90 days\" coupled_run.chunk=\"\
+      30 days\"`` sets\n  individual keys (no ``+`` needed -- ``coupled_run/default.yaml``\
+      \ is the\n  complete schema). It is not called ``run`` because ``atmosphere.run``\
+      \ is\n  the atmosphere's own run config and a ``run`` group here would shadow\n\
+      \  JAX-GCM's.\n\nThe atmosphere: JAX-GCM's own config groups, re-rooted under\
+      \ `atmosphere`:\n-------------------------------------------------------------------------\n\
+      \  physics, grid, dycore, run, init, terrain, forcing, nudging, diffusion\n\n\
+      \  Group and option names are JAX-GCM's; the package is spelled out in the\n\
+      \  override, and single keys are addressed under ``atmosphere.``:\n\n    python\
+      \ -m jem.main physics@atmosphere.physics=held_suarez \\\n        grid@atmosphere.grid=held_suarez_t31_l8\
+      \ atmosphere.run.time_step=15\n\n  A whole JAX-GCM configuration bundle composes\
+      \ under the atmosphere with\n  the group's package, and command-line overrides\
+      \ still apply on top:\n\n    python -m jem.main +configuration@atmosphere=speedy-t31\
+      \ \\\n        atmosphere.run.time_step=7\n\n  Spell the ``@atmosphere`` part:\
+      \ ``+configuration=speedy-t31`` without it\n  would compose that bundle at the\
+      \ *root*, where its `physics`, `terrain`\n  and `run` keys are not the atmosphere's\
+      \ and nothing would read them.\n\nFiles shipped with the packages can be named\
+      \ without a machine-specific\npath -- in single quotes, so that the shell leaves\
+      \ the ``$\\${...}`` for\nHydra to resolve: ``ocean.sst_clim_file='$\\${jcm_data:bc/t30/clim/forcing.nc}'``,\n\
+      ``+ocean.grid_file='$\\${jem_data:JCM_T31.SCRIP.nc}'``.\n\nSee the project README\
+      \ for runnable examples and the most common overrides.\n"
+    header: ???
+    footer: ???
+  hydra_help:
+    template: 'Hydra (${hydra.runtime.version})
+
+      See https://hydra.cc for more info.
+
+
+      == Flags ==
+
+      $FLAGS_HELP
+
+
+      == Configuration groups ==
+
+      Compose your configuration from those groups (For example, append hydra/job_logging=disabled
+      to command line)
+
+
+      $HYDRA_CONFIG_GROUPS
+
+
+      Use ''--cfg hydra'' to Show the Hydra config.
+
+      '
+    hydra_help: ???
+  hydra_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][HYDRA] %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+    root:
+      level: INFO
+      handlers:
+      - console
+    loggers:
+      logging_example:
+        level: DEBUG
+    disable_existing_loggers: false
+  job_logging:
+    version: 1
+    formatters:
+      simple:
+        format: '[%(asctime)s][%(name)s][%(levelname)s] - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: simple
+        stream: ext://sys.stdout
+      file:
+        class: logging.FileHandler
+        formatter: simple
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
+    root:
+      level: INFO
+      handlers:
+      - console
+      - file
+    disable_existing_loggers: false
+  env: {}
+  mode: RUN
+  searchpath:
+  - pkg://jcm.config
+  callbacks: {}
+  output_subdir: .hydra
+  overrides:
+    hydra:
+    - hydra.mode=RUN
+    task:
+    - +configuration=aquaplanet-slab
+    - coupled_run=short_run
+  job:
+    name: main
+    chdir: null
+    override_dirname: +configuration=aquaplanet-slab,coupled_run=short_run
+    id: ???
+    num: ???
+    config_name: config
+    env_set: {}
+    env_copy: []
+    config:
+      override_dirname:
+        kv_sep: '='
+        item_sep: ','
+        exclude_keys: []
+  runtime:
+    version: 1.3.7
+    version_base: '1.3'
+    cwd: /home/jtc006/dsc180-D03/week5/jennifer/jem_runs/aquaplanet_test
+    config_sources:
+    - path: hydra.conf
+      schema: pkg
+      provider: hydra
+    - path: /home/jtc006/jax-esm/jem/config
+      schema: file
+      provider: main
+    - path: jcm.config
+      schema: pkg
+      provider: hydra.searchpath in main
+    - path: ''
+      schema: structured
+      provider: schema
+    output_dir: /home/jtc006/dsc180-D03/week5/jennifer/jem_runs/aquaplanet_test/outputs/2026-10-30/08-33-11
+    choices:
+      configuration: aquaplanet-slab
+      coupled_run: short_run
+      regrid: same_grid
+      coupling: daily
+      seaice: slab
+      land: none
+      ocean: slab
+      diffusion@atmosphere.diffusion: default
+      nudging@atmosphere.nudging: none
+      forcing@atmosphere.forcing: default
+      terrain@atmosphere.terrain: aquaplanet
+      init@atmosphere.init: isothermal
+      run@atmosphere.run: default
+      dycore@atmosphere.dycore: dinosaur
+      grid@atmosphere.grid: speedy_t31_l8
+      physics@atmosphere.physics: speedy
+      hydra/env: default
+      hydra/callbacks: null
+      hydra/job_logging: default
+      hydra/hydra_logging: default
+      hydra/hydra_help: default
+      hydra/help: custom_help
+      hydra/sweeper: basic
+      hydra/launcher: basic
+      hydra/output: default
+  verbose: false
