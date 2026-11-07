@@ -13,6 +13,7 @@
 4. "what does this variability from the paper explain about question 3 asking about ensemble
    variability" — used to interpret the "Variability" row of the ClimateBench leaderboard as the
    lowest error any emulator could physically achieve.
+5. “if i don’t use GPU how long would these tasks take?” — used to compare rough CPU vs GPU timing and decide to prioritize GPU-heavy tasks while the session was available.
 
 ### Writing code
 1. "explain what I need to do, and then lets work on implementing it" — used to plan and then
@@ -25,6 +26,7 @@
    the Gregory regression code for them.
 4. "format it into a table like with pandas data frame values" — used to turn printed results
    into pandas tables for the report.
+5. “is there anything else i need to add or change?” — used to write the Task 3.2 sensitivity map plot, the Task 3.3 dot-product test against jax.jvp for the uniform pattern and the Niño-3.4 box, and the Task 3.4 timing block.
 
 ### Explaining starter notebooks and existing code
 1. "let me paste the code, chunk by chunk and we can walk through what is going on and what to do
@@ -38,6 +40,7 @@
 4. "[pasted run_abrupt_co2.py] ... let me know what I need from that task to work on this one" —
    used to understand a teammate's script for branching the abrupt-CO₂ runs from the control, and
    why it swaps CO₂ into the restored model state instead of using a command-line restart.
+5. “i am starting from a new notebook for week 6 tasks” — used to walk through how to structure the notebook (device check → Task 1 → JCM setup with spinup save → Tasks 2–4) and flag the compilation-time pitfalls in the provided code before running anything.
 
 
 ## How We Tested the Code
