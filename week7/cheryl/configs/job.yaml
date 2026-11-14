@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: cheryl-week7-emulator
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 86400
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: emulator
+        image: quay.io/jupyter/scipy-notebook:latest
+        env:
+        - {name: DATA_ROOT, value: /data/climatebench/data/}
+        - {name: OUT_DIR,   value: /data/work/results}
+        command: ["bash", "-c"]
+        args:
+        - |
+          set -e
+          pip install --quiet --no-cache-dir "jax[cuda12]==0.10.2" optax xarray netcdf4
+          python -c "import jax, optax, xarray, netCDF4, pandas, matplotlib; print(jax.devices())"
+          cd /data/work
+          jupyter nbconvert --to notebook --execute week7_jax_emulator.ipynb \
+            --output week7_jax_emulator_executed.ipynb \
+            --ExecutePreprocessor.timeout=-1 --ExecutePreprocessor.kernel_name=python3
+        resources:
+          requests: {cpu: "4", memory: 16Gi, nvidia.com/gpu: 1, ephemeral-storage: 20Gi}
+          limits:   {cpu: "4", memory: 16Gi, nvidia.com/gpu: 1, ephemeral-storage: 20Gi}
+        volumeMounts: [{name: data, mountPath: /data}]
+      volumes:
+      - name: data
+        persistentVolumeClaim: {claimName: cheryl-data}
