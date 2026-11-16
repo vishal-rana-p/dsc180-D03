@@ -1,0 +1,9 @@
+# Week 7 Notes
+
+## Reflection: JCM gradients (week 6) vs. emulator gradients (week 7)
+
+In week 6, the JCM gradient was the derivative of SPEEDY's equations. It gave us the OLR response of the physics model to changes in SST. In week 7, the gradient is the derivative of a neural network fit to NorESM2 output across 6 scenarios. It tells us how the function the NN learned changes with its inputs. The week 6 gradient is a property of a physical model, while the week 7 gradient is a property of a statistical fit.
+
+Our emulator gradient matched the finite difference to 0.4%. Even with smoothed switches, JCM was off by about 13% at 6 hours. At 4 days its gradient was more than 3 times the finite difference, because chaotic growth of perturbations makes the linearization invalid. However, matching a finite difference only shows the gradient is correct for the function, not that the function is physically right. The emulator says CH₄ emitted in 2080 has no effect on 2081–2100 warming. That's wrong, since methane lasts about 12 years in the atmosphere. The mistake comes from the emulator having no memory: each year's temperature depends only on that year's inputs. Similarly, the SO₂ sensitivity map shows strong effects from US and European emissions on Asian warming. This is likely an artifact: SO₂ only enters through 5 PCs, which tie together regions whose emissions changed together in the training scenarios.
+
+We trust the emulator for long-timescale, global-mean problems within the training range. The relationship between warming and cumulative CO₂ is exactly what the training data constrains, and our TCRE of 0.50 K per 1000 GtCO₂ falls within the IPCC likely range (0.27–0.63). We trust JCM for process-level questions on short timescales, especially perturbations the training data doesn't cover, but not beyond a day or two, where chaos takes over.
