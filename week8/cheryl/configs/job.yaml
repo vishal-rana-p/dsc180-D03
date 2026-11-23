@@ -17,8 +17,8 @@ spec:
         args:
         - |
           set -e
-          pip install --quiet --no-cache-dir "jax==0.10.2" optax xarray netcdf4
-          python -c "import jax, optax, xarray, netCDF4; print(jax.devices())"
+          pip install --quiet --no-cache-dir "jax==0.10.2" optax xarray netcdf4 cartopy
+          python -c "import jax, optax, xarray, cartopy, netCDF4; print(jax.devices())"
           cd /data/week8
           jupyter nbconvert --to notebook --execute week8_pr.ipynb \
             --output week8_pr_executed.ipynb \
